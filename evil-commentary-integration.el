@@ -1,3 +1,15 @@
+;;; evil-commentary-integration.el --- Integration helpers  -*- lexical-binding: nil; -*-
+
+;; This file intentionally uses dynamic binding (`lexical-binding: nil').
+;; The `evil-commentary/org-babel-do-in-edit-buffer' macro expands to a
+;; single-argument `(eval '(org-babel-do-in-edit-buffer ,@body))'.  A
+;; one-argument `eval' evaluates its form with dynamic scoping, so the
+;; spliced BODY (and any surrounding `let'-bound variables it may refer
+;; to) must be resolvable dynamically.  Switching this file to lexical
+;; binding would change how those free variables are resolved at the
+;; `eval' call site, which is a behaviour change.  The explicit directive
+;; documents this and silences the missing-directive byte-compile warning.
+
 (declare-function org-in-src-block-p "org")
 (declare-function org-at-heading-p "org")
 (declare-function org-toggle-comment "org")
