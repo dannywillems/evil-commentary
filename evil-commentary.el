@@ -1,4 +1,4 @@
-;;; evil-commentary.el --- Comment stuff out. A port of vim-commentary.
+;;; evil-commentary.el --- Comment stuff out. A port of vim-commentary.  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014 Quang Linh LE
 
@@ -111,8 +111,18 @@ parameter."
   :lighter " s-/"
   :global t
   :keymap (let ((map (make-sparse-keymap)))
-            (evil-define-key 'normal map "gc" 'evil-commentary)
-            (evil-define-key 'normal map "gy" 'evil-commentary-yank)
+            ;; Use the function `evil-define-key*' rather than the macro
+            ;; `evil-define-key'.  The macro, when given a bare symbol as
+            ;; the keymap, expands to code guarded by `(boundp 'map)',
+            ;; which only works for dynamically bound variables (evil's
+            ;; own source notes "Can't work for lexically scoped vars").
+            ;; Under `lexical-binding', `map' is lexical, so that guard
+            ;; would be nil and the bindings would silently not install.
+            ;; `evil-define-key*' takes the keymap value directly and
+            ;; installs the same auxiliary-keymap bindings immediately,
+            ;; which is what the macro ultimately calls here anyway.
+            (evil-define-key* 'normal map "gc" 'evil-commentary)
+            (evil-define-key* 'normal map "gy" 'evil-commentary-yank)
             (define-key map (kbd "s-/") 'evil-commentary-line)
             map))
 
